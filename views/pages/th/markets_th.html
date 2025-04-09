@@ -1,0 +1,42 @@
+{{ define "content" }}
+<nav class="navigator">
+    <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+    <a href="/order?lang={{ .lang }}">เสนอซื้อขาย</a> | <a href="/markets?lang={{ .lang }}">ตลาด</a> | <a href="/productspage?lang={{ .lang }}">สินค้า</a> | <a href="/services?lang={{ .lang }}">บริการ</a> | <a href="/login?lang={{ .lang }}">เข้าสู่ระบบ</a>
+</nav>
+
+<main class="main-dashboard">
+  <h2>ตลาดสินค้า</h2>
+    <a>
+      <b>ตลาดหลัก:</b><br>
+        <br>&nbsp; &nbsp;1. ตลาดวัตถุดิบชีวมวล<br> 
+        <br>&nbsp; &nbsp;2. ตลาดเชื้อเพลิงชีวภาพ (เชื้อเพลิงชีวภาพแข็ง, เชื้อเพลิงชีวภาพเหลว/เชื้อเพลิงชีวภาพก๊าช)<br>
+        <br>&nbsp; &nbsp;3. พลังงานชีวภาพ (ไฟฟ้า/ไอน้ำ/ความร้อน/ความเย็น)<br>
+        <br>
+      <b>ตลาดย่อย:</b><br>
+        <br>&nbsp;&nbsp; 1. เศษวัสดุการเกษตร<br>
+        <br>&nbsp;&nbsp; 2. เศษวัสดุการเลี้ยงสัตว์เศรษฐกิจ<br>
+        <br>&nbsp;&nbsp; 3. พลังงาน (ปลูกในน้ำ)<br>
+        <br>&nbsp;&nbsp; 4. ชีวมวลผสม<br>
+        <br>&nbsp;&nbsp; 5. ขยะและผลพลอยได้ภาคพานิชย์<br>
+        <br>&nbsp;&nbsp; 6. ความเย็น<br>
+        <br>&nbsp;&nbsp; 7. พืชพลังงาน (ปลูกบนดิน)<br>
+        <br>&nbsp;&nbsp; 8. เศษวัสดุผลไม้<br>
+        <br>&nbsp;&nbsp; 9. เชื้อเพลิงชีวภาพก๊าช<br>
+        <br>10. ความร้อน<br>
+        <br>11. ขยะและผลพลอยได้ภาคอุตสาหกรรม<br>
+        <br>12. เชื้อเพลิงชีวภาพเหลว<br>
+        <br>13. ไฟฟ้า<br>
+        <br>14. ขยะและผลพลอยได้ภาคครัวเรือนและที่อยู่อาศัย<br>
+        <br>15. เชื้อเพลิงชีวภาพแข็ง<br>
+        <br>16. ไอน้ำ<br>
+        <br>17. เศษวัสดุไม้เศรษฐกิจ<br>      
+    </a>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br>
+</footer>
+{{ end }}

@@ -1,0 +1,166 @@
+{{ define "content" }}
+<nav class="navigator">
+  <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+  <a href="/order?lang={{ .lang }}">Trade</a> | <a href="/markets?lang={{ .lang }}">Markets</a> | <a href="/productspage?lang={{ .lang }}">Products</a> | <a href="services?lang={{ .lang }}">Services</a> | <a href="/login?lang={{ .lang }}">Login</a>
+    <div class="nav-right">
+      <form hx-get="/dashboard" hx-target="body" hx-push-url="true" style="display:inline;">
+        <select name="lang" onchange="this.form.submit()">
+          <option value="en" {{ if eq .lang "en" }}selected{{ end }}>EN</option>
+          <option value="th" {{ if eq .lang "th" }}selected{{ end }}>ไทย</option>
+        </select>
+      </form>  
+    </div>
+</nav> 
+
+<main  class="main-logo">  
+  <a>bioenergy exchange platform</a>
+</main>
+
+<div class="content-wrapper">
+    <main class="content">
+        <div class="container">
+            <div class="grid">
+                <div class="card">
+                    <h2>Real time woodchip price index</h2>
+                    <div id="biomass-price" class="value">USD<span>36.57</span>/MT</div>
+                </div>
+                <div class="card">
+                    <h2>24h Trading volume</h2>
+                    <div id="trading-volume" class="value">450<span>MT</span></div>
+                </div>
+                <div class="card">
+                    <h2>Active orders</h2>
+                    <div id="active-orders" class="value"><span>87</span></div>
+                </div>
+                <div class="card">
+                    <h2>CO2 Emissions saved (24h)</h2>
+                    <div id="co2-saved" class="value"><span>5,012</span> TCO2eq</div>
+                </div>
+            </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>Biomass price chart (Last 7 Days)</h2>
+            <canvas id="priceChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="card" style="margin-top: 20px;  padding-bottom: 50px; ">
+            <h2>Recent transactions</h2>
+            <table id="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Volume (MT)</th>
+                        <th>Price (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Transactions will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button hx-get="/api/refresh-data" hx-target="#dashboard-data" hx-swap="innerHTML">
+                Refresh Data
+            </button>
+        </div>
+        <div id="dashboard-data"></div>
+    </div>
+
+    <script>
+        // Initialize price chart
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        const priceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['7 days ago', '6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'Yesterday', 'Today'],
+                datasets: [{
+                    label: 'Woodchip price (USD/MT)',
+                    data: [43.21, 44.52, 45.16, 44.89, 45.67, 46.02, 45.78, 45.67],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+        // Function to generate random transactions
+        function generateTransactions() {
+            const types = ['Buy', 'Sell'];
+            const transactions = [];
+            for (let i = 0; i < 5; i++) {
+                transactions.push({
+                    time: new Date(Date.now() - i * 60000).toLocaleTimeString(),
+                    type: types[Math.floor(Math.random() * types.length)],
+                    quantity: Math.floor(Math.random() * (1000 - 100) + 100),
+                    price: (Math.random() * (50 - 40) + 40).toFixed(2)
+                });
+            }
+            return transactions;
+        }
+
+        // Function to update transactions table
+        function updateTransactionsTable(transactions) {
+            const tableBody = document.querySelector('#transactions-table tbody');
+            tableBody.innerHTML = '';
+            transactions.forEach(t => {
+                const row = `<tr>
+                    <td>${t.time}</td>
+                    <td>${t.type}</td>
+                    <td>${t.quantity}</td>
+                    <td>$${t.price}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Simulating API endpoint for refreshing data
+        htmx.on("htmx:afterRequest", function(evt) {
+            if (evt.detail.pathInfo.requestPath === "/api/refresh-data") {
+                const newData = {
+                    biomassPrice: (Math.random() * (50 - 40) + 40).toFixed(2),
+                    tradingVolume: Math.floor(Math.random() * (2000000 - 1000000) + 1000000),
+                    activeOrders: Math.floor(Math.random() * (150 - 50) + 50),
+                    co2Saved: Math.floor(Math.random() * (10000 - 4000) + 4000)
+                };
+
+                document.querySelector('#biomass-price span').textContent = newData.biomassPrice;
+                document.querySelector('#trading-volume span').textContent = newData.tradingVolume.toLocaleString();
+                document.querySelector('#active-orders span').textContent = newData.activeOrders;
+                document.querySelector('#co2-saved span').textContent = newData.co2Saved.toLocaleString();
+
+                // Update chart
+                priceChart.data.datasets[0].data.shift();
+                priceChart.data.datasets[0].data.push(newData.biomassPrice);
+                priceChart.update();
+
+                // Update transactions
+                updateTransactionsTable(generateTransactions());
+
+                evt.detail.target.innerHTML = `
+                    <p style="color: #28a745;">Data refreshed at ${new Date().toLocaleTimeString()}</p>
+                `;
+            }
+        });
+
+        // Initial population of transactions table
+        updateTransactionsTable(generateTransactions());
+    </script>
+    </div>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

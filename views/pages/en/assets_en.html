@@ -1,0 +1,32 @@
+{{ define "content" }}
+<nav class="vertical-nav">
+  <a href="/?lang={{ .lang }}" class="vertical-nav-brand">BiomassX</a>
+  <div class="vertical-nav-menu">
+    <span class="nav-category">Order</span>
+    <a href="/order?lang={{ .lang }}" class="nav-item">products</a>
+    <a class="nav-subcategory">services</a>
+    <a class="nav-subcategory">assets</a>
+    
+    <span class="nav-category">History</span>
+    <a href="/contract?lang={{ .lang }}" class="nav-item">products</a>
+    <a class="nav-subcategory">services</a>
+    <a class="nav-subcategory">assets</a>
+    
+    <span class="nav-category">Setting</span>
+    <a href = "/profile" class="nav-subcategory">profile</a>
+    <a href="/logout?lang={{ .lang }}" hx-post="/logout?lang={{ .lang }}" hx-redirect="/login?lang={{ .lang }}" class="nav-item">Logout</a>
+  </div>
+</nav>
+
+
+<main class="main-dashboard main-with-vertical-nav">
+<h3>Assets</h3>
+</main>
+
+<footer class="footer">
+    <br>
+    <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+    <p>BIOMASS EXCHANGE CO., LTD.</p>
+    <br>
+</footer>
+{{ end }}

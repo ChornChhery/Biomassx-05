@@ -1,0 +1,22 @@
+{{ define "content" }}
+<nav class="navigator">
+    <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+    <a href="/order?lang={{ .lang }}">Trade</a> | <a href="/markets?lang={{ .lang }}">Markets</a> | <a href="/productspage?lang={{ .lang }}">Products</a> | <a href="services?lang={{ .lang }}">Services</a> | <a href="/login?lang={{ .lang }}">Login</a>
+</nav>
+<main class="main-dashboard">
+  <h2>Contact us</h2>
+  Phone: +66 (0)95 926 3663<br>
+  <!--<img src="/static/images/app-icon130x130.png" style="height:42px; max-height: 42px; max-width:42px; width: 42px;">-->
+  Line ID: biomassx<br>
+  <!--<img src="/static/images/app-icon130x130.png" style="height:42px; max-height: 42px; max-width:42px; width: 42px;">-->
+  WhatsApp: +66 95 926 3663<br>
+  Email: <a href= "mailto:cs@biomassx.com">cs@biomassx.com<br>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

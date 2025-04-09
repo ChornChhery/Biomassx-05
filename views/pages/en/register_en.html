@@ -1,0 +1,48 @@
+{{ define "content" }}
+<nav>
+    <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+</nav>
+
+<main class="content">
+<form hx-post="/register" hx-redirect="/login?lang={{ .lang }}" hx-target="#message">
+    <h2>Register</h2>
+    <div class="registerform-group">   
+    <label for="firstName">First name :</label>
+    <input type="text" id="firstName" name="firstName"></div><br><br>
+
+    <div class="registerform-group">
+    <label for="lastName">Lastname :</label>
+    <input type="text" id="lastName" name="lastName" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="organizationName">Organization name : <br>(if any) </label>
+    <input type="text" id="organizationName" name="organizationName"></div><br><br>
+
+    <div class="registerform-group">
+    <label for="username">Username :</label>
+    <input type="username" id="username" name="username" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="password">Password :</label>
+    <input type="password" id="password" name="password" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="phone">Phone : </label>
+    <input type="tel" id="phone" name="phone" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="email">Email : </label>
+    <input type="email" id="email" name="email" required></div><br><br>
+    <button type="submit">Register</button>
+    <p>Already have an account? <a href="/login?lang={{ .lang }}">Login</a></p>
+</form>
+<div id="message"></div>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

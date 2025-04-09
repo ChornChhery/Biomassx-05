@@ -1,0 +1,102 @@
+{{ define "content" }}
+<nav class="vertical-nav">
+    <a href="/?lang={{ .Lang }}" class="vertical-nav-brand">BiomassX</a>
+    <div class="vertical-nav-menu">
+        <a href="/dashboard?lang={{ .Lang }}" class="nav-item">Dashboard</a>
+      <span class="nav-category">Order</span>
+      <a href="/order?lang={{ .Lang }}" class="nav-item">products</a>
+      <a class="nav-subcategory">services</a>
+      <a class="nav-subcategory">assets</a>
+      
+      <span class="nav-category">History</span>
+      <a href="/contract?lang={{ .Lang }}" class="nav-item">products</a>
+      <a class="nav-subcategory">services</a>
+      <a class="nav-subcategory">assets</a>
+      
+      <span class="nav-category">Setting</span>
+      <a href = "/profile?lang={{ .Lang }}" class="nav-subcategory">profile</a>
+      <a href="/logout?lang={{ .Lang }}" hx-post="/logout?lang={{ .Lang }}" hx-redirect="/login?lang={{ .Lang }}" class="nav-item">Logout</a>
+    </div>
+  </nav>
+
+  <main class="main-dashboard main-with-vertical-nav">
+    <div class="dashboard-content">
+        <h2 class="contract-title">สัญญาเลขที่: {{.Contract.ID}}</h2>
+        <p class="contract-date">วันที่สัญญา: {{if .Contract.ContractDate.IsZero}}N/A{{else}}{{.Contract.ContractDate.Format "02-01-2006"}}{{end}}</p>
+        
+        <section class="contract-section">
+            <h2>คู่สัญญา</h2>
+            <p>ผู้ขาย: {{.Contract.SellerFirstName.String}} {{.Contract.SellerLastName.String}}</p>
+            <p>ชื่อองค์กร: {{if .Contract.SellerOrgName.Valid}}{{.Contract.SellerOrgName.String}}{{else}}-{{end}}</p>
+            <p>ผู้ซื้อ: {{.Contract.BuyerFirstName.String}} {{.Contract.BuyerLastName.String}}</p>
+            <p>ชื่อองค์กร: {{if .Contract.BuyerOrgName.Valid}}{{.Contract.BuyerOrgName.String}}{{else}}-{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>ข้อมูลสินค้า</h2>
+            <p>สินค้า: {{if .Contract.ProductThName.Valid}}{{.Contract.ProductThName.String}}{{else}}N/A{{end}}</p>
+            <p>มาตรฐาน: {{if .Contract.StandardThName.Valid}}{{.Contract.StandardThName.String}}{{else}}N/A{{end}}</p>
+            <p>เกรด: {{if .Contract.GradeThName.Valid}}{{.Contract.GradeThName.String}}{{else}}N/A{{end}}</p>
+            <p>จำนวน: {{.Contract.Quantity}} {{if .Contract.UomTh.Valid}}{{.Contract.UomTh.String}}{{else}}N/A{{end}}</p>
+            <p>บรรจุภัณฑ์: {{if .Contract.PackingTh.Valid}}{{.Contract.PackingTh.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>เงื่อนไขทางการเงิน</h2>
+            <p>ราคา: {{.Contract.Price}} {{if .Contract.CurrencyThName.Valid}}{{.Contract.CurrencyThName.String}}{{else}}N/A{{end}}</p>
+            <p>เงื่อนไขการชำระเงิน: {{if .Contract.PaymentTermTh.Valid}}{{.Contract.PaymentTermTh.String}}{{else}}N/A{{end}}</p>
+            <p>สถานะการชำระเงิน: {{if .Contract.PaymentStatusTh.Valid}}{{.Contract.PaymentStatusTh.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>เงื่อนไขการจัดส่ง</h2>
+            <p>เงื่อนไขการจัดส่ง: {{if .Contract.DeliveryTermTh.Valid}}{{.Contract.DeliveryTermTh.String}}{{else}}N/A{{end}}</p>
+            <p>เริ่มทำการจัดส่ง: {{if .Contract.StartDelivery.Valid}}{{.Contract.StartDelivery.Time.Format "02-01-2006"}}{{else}}N/A{{end}}</p>
+            <p>เสร็จสิ้นการจัดส่ง: {{if .Contract.FinishDelivery.Valid}}{{.Contract.FinishDelivery.Time.Format "02-01-2006"}}{{else}}N/A{{end}}</p>
+            <p><strong>สถานที่จัดส่ง:</strong></p>
+            <p>ประเทศผู้ขาย: {{.Contract.SellerCountryTh.String}}</p>
+            <p>ประเทศผู้ซื้อ: {{.Contract.BuyerCountryTh.String}}</p>
+            <p>จังหวัด: {{if .Contract.PodProvinceTh.Valid}}{{.Contract.PodProvinceTh.String}}{{else}}N/A{{end}}</p>
+            <p>อำเภอ: {{if .Contract.PodDistrictTh.Valid}}{{.Contract.PodDistrictTh.String}}{{else}}N/A{{end}}</p>
+            <p>ตำบล: {{if .Contract.PodSubdistrictTh.Valid}}{{.Contract.PodSubdistrictTh.String}}{{else}}N/A{{end}}</p>
+            <p><strong>ท่าเรือขนส่งสินค้า:</strong></p>
+            <p>ท่าเรือขนส่งสินค้าผู้ขาย: {{if .Contract.SellerPolTh.Valid}}{{.Contract.SellerPolTh.String}}{{else}}N/A{{end}}</p>
+            <p>ท่าเรือของผู้ขายสำหรับการขนถ่ายสินค้า: {{if .Contract.SellerPodTh.Valid}}{{.Contract.SellerPodTh.String}}{{else}}N/A{{end}}</p>
+            <p>ท่าเรือขนส่งสินค้าผู้ซื้อ: {{if .Contract.BuyerPolTh.Valid}}{{.Contract.BuyerPolTh.String}}{{else}}N/A{{end}}</p>
+            <p>ท่าเรือของผู้ซื้อสำหรับการขนถ่ายสินค้า: {{if .Contract.BuyerPodTh.Valid}}{{.Contract.BuyerPodTh.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>สถานะสัญญา</h2>
+            <p>การยืนยันของผู้ขาย: {{if .Contract.SellerConfirmStatusTh.Valid}}{{.Contract.SellerConfirmStatusTh.String}}{{else}}N/A{{end}}</p>
+            <p>การยืนยันของผู้ซื้อ: {{if .Contract.BuyerConfirmStatusTh.Valid}}{{.Contract.BuyerConfirmStatusTh.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>หมายเหตุ</h2>
+            <p>ผู้ขาย: {{if .Contract.SellerRemark.Valid}}{{.Contract.SellerRemark.String}}{{else}}N/A{{end}}</p>
+            <p>ผู้ซื้อ: {{if .Contract.BuyerRemark.Valid}}{{.Contract.BuyerRemark.String}}{{else}}N/A{{end}}</p>
+        </section>  
+
+        <section class="contract-section">
+            <h2>ตกลงปฏิบัติตามสัญญา</h2>
+            <div class="button-stack">
+                <button 
+                    class="sign-button" 
+                    hx-post="/sign"
+                    hx-vals='{"contract_id": "{{.Contract.ID}}"}'
+                >
+                    ลงนามในสัญญา
+                </button>
+                
+                {{if and (eq .Contract.SellerConfirmStatusTh.String "ลงนามแล้ว") (eq .Contract.BuyerConfirmStatusTh.String "ลงนามแล้ว") (eq .Contract.ContractStatusTh.String "ลงนามแล้ว")}}
+                <a href="/download-pdfTh/{{.Contract.ID}}" class="sign-button download-btn">
+                    ดาวน์โหลด PDF
+                </a>
+                {{end}}
+            </div>
+        </section><br><br>
+
+    </div>
+</main>     
+{{end}}

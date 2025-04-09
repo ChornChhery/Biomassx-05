@@ -1,0 +1,48 @@
+{{ define "content" }}
+<nav>
+    <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+</nav>
+
+<main class="content">
+<form hx-post="/register" hx-redirect="/login?lang={{ .lang }}" hx-target="#message">
+    <h2>สร้างบัญชีผู้ใช้</h2>
+    <div class="registerform-group">   
+    <label for="firstName">ชื่อ :</label>
+    <input type="text" id="firstName" name="firstName"></div><br><br>
+
+    <div class="registerform-group">
+    <label for="lastName">นามสกุล :</label>
+    <input type="text" id="lastName" name="lastName" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="organizationName">ชื่อบริษัท : <br>(หากมี) </label>
+    <input type="text" id="organizationName" name="organizationName"></div><br><br>
+
+    <div class="registerform-group">
+    <label for="username">ขื่อผู้ใช้ :</label>
+    <input type="username" id="username" name="username" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="password">รหัสผ่าน :</label>
+    <input type="password" id="password" name="password" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="phone">เบอร์โทร : </label>
+    <input type="tel" id="phone" name="phone" required></div><br><br>
+
+    <div class="registerform-group">
+    <label for="email">อีเมลล์ : </label>
+    <input type="email" id="email" name="email" required></div><br><br>
+    <button type="submit">สร้างบัญชีผู้ใช้</button>
+    <p>หากมีบัญชีอยู่แล้ว? <a href="/login?lang={{ .lang }}">เข้าสู่ระบบ</a></p>
+</form>
+<div id="message"></div>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br>
+</footer>
+{{ end }}

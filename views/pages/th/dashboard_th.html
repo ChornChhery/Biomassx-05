@@ -1,0 +1,34 @@
+{{ define "content" }}
+<nav class="vertical-nav">
+  <a href="/?lang={{ .lang }}" class="vertical-nav-brand">BiomassX</a>
+  <div class="vertical-nav-menu">
+      <a href="/dashboard?lang={{ .lang }}" class="nav-item">หน้าหลักของฉัน</a>
+      <span class="nav-category">เสนอซื้อ/เสนอขาย</span>
+      <a href="/order?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;สินค้า</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;บริการ</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;ทรัพย์สิน</a>
+      
+      <span class="nav-category">สัญญาซื้อขาย</span>
+      <a href="/contract?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;สินค้า</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;บริการ</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;ทรัพย์สิน</a>
+      
+      <span class="nav-category">ตั้งค่าใช้งาน</span>
+      <a href = "/profile?lang={{ .lang }}" class="nav-subcategory">&nbsp;&nbsp;&nbsp;ข้อมูลผู้ใช้</a>
+      <br>
+      <a href="/logout?lang={{ .lang }}" hx-post="/logout?lang={{ .lang }}" hx-redirect="/login?lang={{ .lang }}" class="nav-item">ออกจากระบบ</a>
+  </div>
+</nav>
+
+<main class="main-dashboard main-with-vertical-nav">
+<h3>หน้าหลักของฉัน</h3>
+<p>คุณได้เข้าสู่ระบบ BiomassX แล้ว</p>
+</main>
+
+<footer class="footer-with-vertical-nav">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br> 
+</footer>
+{{ end }}

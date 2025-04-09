@@ -1,0 +1,144 @@
+{{define "content"}}
+<nav class="vertical-nav">
+    <a href="/?lang={{ .Lang }}" class="vertical-nav-brand">BiomassX</a>
+    <div class="vertical-nav-menu">
+        <a href="/dashboard?lang={{ .Lang }}" class="nav-item">หน้าหลักของฉัน</a>
+      <span class="nav-category">เสนอซื้อ/เสนอขาย</span>
+      <a href="/order?lang={{ .Lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;สินค้า</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;บริการ</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;ทรัพย์สิน</a>
+      
+      <span class="nav-category">สัญญาซื้อขาย</span>
+      <a href="/contract?lang={{ .Lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;สินค้า</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;บริการ</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;ทรัพย์สิน</a>
+      
+      <span class="nav-category">ตั้งค่าใช้งาน</span>
+      <a href = "/profile?lang={{ .Lang }}" class="nav-subcategory">&nbsp;&nbsp;&nbsp;ข้อมูลผู้ใช้</a>
+      <br>
+      <a href="/logout?lang={{ .Lang }}" hx-post="/logout?lang={{ .Lang }}" hx-redirect="/login?lang={{ .Lang }}" class="nav-item">ออกจากระบบ</a>
+    </div>
+</nav>
+
+<main class="main-dashboard main-with-vertical-nav">
+<h3>สัญญาซื้อขาย</h3>
+<div class="container">
+    {{if .SellContracts}}
+    <h3>Sell contract(s)</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>วันที่สัญญา</th>
+                <th>ผู้ขาย</th>
+                <th>องค์กร</th>
+                <th>ผู้ซื้อ     </th>
+                <th>องค์กร</th>
+                <th>คุณภาพ</th>
+                <th>ราคา</th>
+                <th>จำนวน</th>
+                <th>บรรจุภัณฑ์</th>
+                <th>เงื่อนไขการจัดส่ง</th>
+                <th>สถานะการจัดส่ง</th>
+                <th>เงื่อนไขการชำระเงิน</th>
+                <th>สถานะการชำระเงิน</th>
+                <th>การยืนยันจากผู้ขาย</th>
+                <th>การยืนยันจากผู้ซื้อ</th>
+                <th>สถานะสัญญา</th>
+                <th>ดำเนินการ</th>             
+            </tr>
+        </thead>
+        <tbody>
+            {{range .SellContracts}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{if .ContractDate.IsZero}}N/A{{else}}{{.ContractDate.Format "02-01-2006"}}{{end}}</td>
+                <td>{{if .SellerFirstName.Valid}}{{.SellerFirstName.String}} {{.SellerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerOrgName.Valid}}{{.SellerOrgName.String}}{{else}}-{{end}}</td>
+                <td>{{if .BuyerFirstName.Valid}}{{.BuyerFirstName.String}} {{.BuyerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerOrgName.Valid}}{{.BuyerOrgName.String}}{{else}}-{{end}}</td>
+                <td>
+                    {{if .StandardThName.Valid}}Standard: {{.StandardThName.String}} - {{else}}Standard: N/A - {{end}}
+                    {{if .GradeThName.Valid}}Grade: {{.GradeThName.String}}{{else}}Grade: N/A{{end}}
+                </td>
+                <td>{{.Price}} {{if .CurrencyThName.Valid}}{{.CurrencyThName.String}}{{else}}N/A{{end}}</td>
+                <td>{{.Quantity}} {{if .UomTh.Valid}}{{.UomTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PackingTh.Valid}}{{.PackingTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryTermTh.Valid}}{{.DeliveryTermTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryStatusTh.Valid}}{{.DeliveryStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentTermTh.Valid}}{{.PaymentTermTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentStatusTh.Valid}}{{.PaymentStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerConfirmStatusTh.Valid}}{{.SellerConfirmStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerConfirmStatusTh.Valid}}{{.BuyerConfirmStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .ContractStatusTh.Valid}}{{.ContractStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td><a href="/contract/{{.ID}}?lang={{ $.Lang }}" class="btn">View</a></td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{end}}
+
+    {{if .BuyContracts}}
+    <h3>Buy contract(s)</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>วันที่สัญญา</th>
+                <th>ผู้ขาย</th>
+                <th>องค์กร</th>
+                <th>ผู้ซื้อ</th>
+                <th>องค์กร</th>
+                <th>คุณภาพ</th>
+                <th>ราคา</th>
+                <th>จำนวน</th>
+                <th>บรรจุภัณฑ์</th>
+                <th>เงื่อนไขการจัดส่ง</th>
+                <th>สถานะการจัดส่ง</th>
+                <th>เงื่อนไขการชำระเงิน</th>
+                <th>สถานะการชำระเงิน</th>
+                <th>การยืนยันจากผู้ขาย</th>
+                <th>การยืนยันจากผู้ซื้อ</th>
+                <th>สถานะสัญญา</th>
+                <th>ดำเนินการ</th>                
+            </tr>
+        </thead>
+        <tbody>
+            {{range .BuyContracts}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{if .ContractDate.IsZero}}N/A{{else}}{{.ContractDate.Format "02-01-2006"}}{{end}}</td>
+                <td>{{if .SellerFirstName.Valid}}{{.SellerFirstName.String}} {{.SellerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerOrgName.Valid}}{{.SellerOrgName.String}}{{else}}-{{end}}</td>
+                <td>{{if .BuyerFirstName.Valid}}{{.BuyerFirstName.String}} {{.BuyerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerOrgName.Valid}}{{.BuyerOrgName.String}}{{else}}-{{end}}</td>
+                <td>
+                    {{if .StandardThName.Valid}}Standard: {{.StandardThName.String}} - {{else}}Standard: N/A - {{end}}
+                    {{if .GradeThName.Valid}}Grade: {{.GradeThName.String}}{{else}}Grade: N/A{{end}}
+                </td>
+                <td>{{.Price}} {{if .CurrencyThName.Valid}}{{.CurrencyThName.String}}{{else}}N/A{{end}}</td>
+                <td>{{.Quantity}} {{if .UomTh.Valid}}{{.UomTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PackingTh.Valid}}{{.PackingTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryTermTh.Valid}}{{.DeliveryTermTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryStatusTh.Valid}}{{.DeliveryStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentTermTh.Valid}}{{.PaymentTermTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentStatusTh.Valid}}{{.PaymentStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerConfirmStatusTh.Valid}}{{.SellerConfirmStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerConfirmStatusTh.Valid}}{{.BuyerConfirmStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .ContractStatusTh.Valid}}{{.ContractStatusTh.String}}{{else}}N/A{{end}}</td>
+                <td><a href="/contract/{{.ID}}?lang={{ $.Lang }}" class="btn">View</a></td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{end}}
+</div>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .Lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .Lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .Lang }}">ติดต่อเรา</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br>
+</footer>
+{{end}}

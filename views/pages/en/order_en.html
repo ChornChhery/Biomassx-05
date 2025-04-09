@@ -1,0 +1,502 @@
+{{ define "content" }}
+    <script>function handleMarketspaceChange() {
+        const marketspaceSelect = document.querySelector('#marketspace');
+        const deliveryTermSelect = document.querySelector('#delivery_term_id');
+        const selectedMarketspace = marketspaceSelect.value;
+        const selectedDeliveryTerm = deliveryTermSelect ? deliveryTermSelect.value : '';
+        const portFields = document.getElementById('port-fields');
+        const locationFields = document.getElementById('location-fields');
+        
+        function resetFields(fieldsContainer, fieldIds) {
+            if (fieldsContainer) {
+                fieldsContainer.style.display = 'none';
+                fieldIds.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.removeAttribute('required');
+                        if (element.tagName === 'SELECT') {
+                            element.selectedIndex = 0;
+                        } else {
+                            element.value = '';
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Reset all fields first
+        resetFields(portFields, ['POL', 'POD']);
+        resetFields(locationFields, ['province_id', 'district_id', 'subdistrict_id']);
+        
+        // Apply requirements based on conditions
+        if (selectedMarketspace === '1') { // Local market
+            locationFields.style.display = 'block';
+            ['province_id', 'district_id', 'subdistrict_id'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.setAttribute('required', '');
+                }
+            });
+        } else if (selectedMarketspace === '2') { // Global market
+            if (selectedDeliveryTerm === '5' || selectedDeliveryTerm === '9') {
+                locationFields.style.display = 'block';
+                ['province_id', 'district_id', 'subdistrict_id'].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.setAttribute('required', '');
+                    }
+                });
+            } else {
+                portFields.style.display = 'block';
+                // Remove required attribute for POL/POD as we'll handle it in validation
+                ['POL', 'POD'].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.removeAttribute('required');
+                    }
+                });
+            }
+        }
+    }
+    
+    function validateFields() {
+    const marketspaceSelect = document.querySelector('#marketspace');
+    const deliveryTermSelect = document.querySelector('#delivery_term_id');
+    const selectedMarketspace = marketspaceSelect.value;
+    const selectedDeliveryTerm = deliveryTermSelect ? deliveryTermSelect.value : '';
+    
+    let invalidFields = [];
+
+    // 🔹 ตรวจสอบฟิลด์ Default Form Fields ที่ต้องกรอกเสมอ
+    const requiredFields = [
+        'market', 'submarket', 'orderType', 'matchingType', 'contractType',
+        'product', 'quality', 'price', 'currency','quantity', 'uom_id', 
+        'packing_id', 'payment_term_id','country_id', 'first_delivery_date', 'last_delivery_date'
+    ];
+
+    requiredFields.forEach(id => {
+        const element = document.getElementById(id);
+        if (element && !element.value) {
+            invalidFields.push(element.previousElementSibling.textContent.replace(':', ''));
+        }
+    });
+
+    // 🔹 ตรวจสอบ Location Fields สำหรับ Local Market
+    if (selectedMarketspace === '1') {
+        ['province_id', 'district_id', 'subdistrict_id'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element && !element.value) {
+                invalidFields.push(element.previousElementSibling.textContent.replace(':', ''));
+            }
+        });
+    }
+    // 🔹 ตรวจสอบ Location หรือ Port Fields สำหรับ Global Market
+    else if (selectedMarketspace === '2') {
+        if (selectedDeliveryTerm === '5' || selectedDeliveryTerm === '9') {
+            // ตรวจสอบจังหวัด อำเภอ ตำบล
+            ['province_id', 'district_id', 'subdistrict_id'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element && !element.value) {
+                    invalidFields.push(element.previousElementSibling.textContent.replace(':', ''));
+                }
+            });
+        } else {
+            // ต้องมีค่าใน POL หรือ POD อย่างน้อยหนึ่งค่า
+            const pol = document.getElementById('POL');
+            const pod = document.getElementById('POD');
+            if ((!pol?.value && !pod?.value)) {
+                invalidFields.push('At least one port (Port of Loading or Port of Discharge) is required');
+            }
+        }
+    }
+
+    return invalidFields;
+}
+
+    
+    function generateConfirmation() {
+        const form = document.querySelector('form');
+    
+        try {
+            // Original confirmation generation code remains the same
+            const marketspace = form.querySelector('#marketspace option:checked')?.textContent || '';
+            const deliveryTerm = form.querySelector('#delivery_term_id option:checked')?.textContent || '';
+            const market = form.querySelector('#market option:checked')?.textContent || '';
+            const submarket = form.querySelector('#submarket option:checked')?.textContent || '';
+            const orderType = form.querySelector('#orderType option:checked')?.textContent || '';
+            const matchingType = form.querySelector('#matchingType option:checked')?.textContent || '';
+            const contractType = form.querySelector('#contractType option:checked')?.textContent || '';
+            const product = form.querySelector('#product option:checked')?.textContent || '';
+            const quality = form.querySelector('#quality option:checked')?.textContent || '';
+            const price = form.querySelector('#price')?.value || '';
+            const currency = form.querySelector('#currency option:checked')?.textContent || '';
+            const quantity = form.querySelector('#quantity')?.value || '';
+            const uom = form.querySelector('#uom_id option:checked')?.textContent || '';
+            const packing = form.querySelector('#packing_id option:checked')?.textContent || '';
+            const paymentTerm = form.querySelector('#payment_term_id option:checked')?.textContent || '';
+            const country = form.querySelector('#country_id option:checked')?.textContent || '';
+            const port_of_loading = form.querySelector('#POL option:checked')?.textContent || '';
+            const port_of_discharge = form.querySelector('#POD option:checked')?.textContent || '';
+            const province = form.querySelector('#province_id option:checked')?.textContent || '';
+            const district = form.querySelector('#district_id option:checked')?.textContent || '';
+            const subdistrict = form.querySelector('#subdistrict_id option:checked')?.textContent || '';
+            const firstDeliveryDate = form.querySelector('#first_delivery_date')?.value || '';
+            const lastDeliveryDate = form.querySelector('#last_delivery_date')?.value || '';
+            const remark = form.querySelector('#remark')?.value || '';
+    
+            let confirmationDetails = `
+            <div class="modal-header">Confirmation</div>
+            <ul>
+                <li><b>Marketspace:</b> ${marketspace}</li>
+                <li><b>Market:</b> ${market}</li>
+                <li><b>Submarket:</b> ${submarket}</li>
+                <li><b>Order Type:</b> ${orderType}</li>
+                <li><b>Matching Type:</b> ${matchingType}</li>
+                <li><b>Contract Type:</b> ${contractType}</li>
+                <li><b>Product:</b> ${product}</li>
+                <li><b>Quality:</b> ${quality}</li>
+                <li><b>Price per Unit:</b> ${price}</li>
+                <li><b>Currency:</b> ${currency}</li>
+                <li><b>Quantity:</b> ${quantity}</li>
+                <li><b>Unit:</b> ${uom}</li>
+                <li><b>Packing:</b> ${packing}</li>
+                <li><b>Payment Term:</b> ${paymentTerm}</li>
+                <li><b>Delivery Term:</b> ${deliveryTerm}</li>
+                <li><b>Country:</b> ${country}</li>`;
+    
+            const marketspaceValue = form.querySelector('#marketspace').value;
+            const deliveryTermValue = form.querySelector('#delivery_term_id').value;
+    
+            if (marketspaceValue === '2' && (deliveryTermValue === '5' || deliveryTermValue === '9')) {
+                confirmationDetails += `
+                    <li><b>Province:</b> ${province}</li>
+                    <li><b>District:</b> ${district}</li>
+                    <li><b>Subdistrict:</b> ${subdistrict}</li>
+                `;
+            } else if (marketspaceValue === '2') {
+                // Show only filled port fields
+                if (port_of_loading) {
+                    confirmationDetails += `<li><b>Port of loading:</b> ${port_of_loading}</li>`;
+                }
+                if (port_of_discharge) {
+                    confirmationDetails += `<li><b>Port of discharge:</b> ${port_of_discharge}</li>`;
+                }
+            } else if (marketspaceValue === '1') {
+                confirmationDetails += `
+                    <li><b>Province:</b> ${province}</li>
+                    <li><b>District:</b> ${district}</li>
+                    <li><b>Subdistrict:</b> ${subdistrict}</li>
+                `;
+            }
+    
+            confirmationDetails += `
+                <li><b>First Delivery Date:</b> ${firstDeliveryDate}</li>
+                <li><b>Last Delivery Date:</b> ${lastDeliveryDate}</li>
+                <li><b>Remark:</b> ${remark}</li>
+            </ul>
+            <div class="modal-footer">
+                <button onclick="submitForm()">Confirm and Submit</button>
+                <button type="button" onclick="closeModal()">Cancel</button>
+            </div>`;
+    
+            const modalContent = document.getElementById('modal-content');
+            const confirmationModal = document.getElementById('confirmationModal');
+            
+            if (modalContent && confirmationModal) {
+                modalContent.innerHTML = confirmationDetails;
+                confirmationModal.style.display = 'block';
+            } else {
+                console.error('Modal elements not found');
+            }
+        } catch (error) {
+            console.error('Error in generateConfirmation:', error);
+        }
+    }
+    
+    function closeModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+    }
+    
+    function submitForm() {
+    const invalidFields = validateFields();
+    if (invalidFields.length > 0) {
+        alert('Please fill in the following required fields:\n' + invalidFields.join('\n'));
+        return; // หยุดการส่งฟอร์ม ถ้ายังกรอกไม่ครบ
+    }
+    const form = document.querySelector('form');
+    form.submit();
+}
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const marketspaceSelect = document.querySelector('#marketspace');
+        const deliveryTermSelect = document.querySelector('#delivery_term_id');
+        let lastKnownMarketspace = "";
+        
+        if (marketspaceSelect) {
+            marketspaceSelect.addEventListener('change', () => {
+                const changingToGlobal = lastKnownMarketspace === "1" && marketspaceSelect.value === "2";
+                lastKnownMarketspace = marketspaceSelect.value;
+                
+                if (changingToGlobal && (deliveryTermSelect.value === '5' || deliveryTermSelect.value === '9')) {
+                    deliveryTermSelect.value = "";
+                    deliveryTermSelect.dispatchEvent(new Event('change'));
+                }
+                
+                handleMarketspaceChange();
+            });
+            lastKnownMarketspace = marketspaceSelect.value;
+        }
+        
+        if (deliveryTermSelect) {
+            deliveryTermSelect.addEventListener('change', () => {
+                handleMarketspaceChange();
+            });
+        }
+        
+        setTimeout(handleMarketspaceChange, 100);
+    });
+</script>
+<nav class="vertical-nav">
+    <a href="/?lang={{ .lang }}" class="vertical-nav-brand">BiomassX</a>
+    <div class="vertical-nav-menu">
+        <a href="/dashboard?lang={{ .lang }}" class="nav-item">Dashboard</a>
+      <span class="nav-category">Order to buy/sell</span>
+      <a href="/order?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+      
+      <span class="nav-category">Contract</span>
+      <a href="/contract?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+      
+      <span class="nav-category">Setting</span>
+      <a href = "/profile?lang={{ .lang }}" class="nav-subcategory">&nbsp;&nbsp;&nbsp;profile</a>
+      <br>
+      <a href="/logout?lang={{ .lang }}" hx-post="/logout?lang={{ .lang }}" hx-redirect="/login?lang={{ .lang }}" class="nav-item">Logout</a>
+    </div>
+  </nav>
+<body>
+    <div class="content-wrapper">
+        <main class="main-dashboard main-with-vertical-nav">
+            <form hx-post="/order" hx-target="#response" hx-swap="innerHTML" method="post">
+                <h2>Order</h2>
+              <div class="form-group">
+                <label for="marketspace_id">Marketspace:</label>
+                <select id="marketspace" name="marketspaceID" hx-get="/payment" 
+                hx-trigger="change" 
+                hx-target="#payment_term_id"
+                hx-include="[name='marketspaceID']"
+                hx-swap="innerHTML"
+                hx-on="htmx:afterRequest: this.closest('form').querySelector('#delivery').dispatchEvent(new Event('change'));" >
+                    <option value="">--select local/global market--</option>
+                    {{range .Marketspaces}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+
+                <div class="form-group">
+                    <label for="market">Market:</label>
+                    <select id="market" name="marketID" 
+                        hx-get="/submarkets" 
+                        hx-target="#submarket" 
+                        hx-trigger="change"
+                        hx-on::after-request="htmx.trigger('#submarket', 'change')"
+                        required>
+                        <option value="">--select a market--</option>
+                        {{range .Markets}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                    </select>
+                </div><br>
+                
+                <div class="form-group">
+                    <label for="submarket">Submarket:</label>
+                    <select id="submarket" name="submarketID" 
+                        hx-get="/products" 
+                        hx-target="#product" 
+                        hx-trigger="change"
+                        hx-on::after-request="htmx.trigger('#product', 'change')"
+                        required>
+                        <option value="">--select a submarket--</option>
+                        {{range .Submarkets}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                    </select>
+                </div><br>
+                
+                <div class="form-group">
+                <label for="order_type_id">Order type:</label>
+                <select id="orderType" name="orderTypeID" hx-target="#orderType" hx-trigger="load" required>
+                    <option value="">--select buy/sell order--</option>
+                    {{range .OrderTypes}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+                
+                <div class="form-group">
+                <label for="matching_type_id">Matching type:</label>
+                <select id="matchingType" name="matchingTypeID" hx-target="#matchingType" hx-trigger="load" required>
+                    <option value="">--select a matching algorithm--</option>
+                    {{range .MatchingTypes}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+
+                <div class="form-group">
+                <label for="contract_type_id">Contract type:</label>
+                <select id="contractType" name="contractTypeID" hx-target="#contractType" hx-trigger="load" required>
+                    <option value="">--select a contract type--</option>
+                    {{range .ContractTypes}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+                
+
+                <div class="form-group">
+                    <label for="product">Product:</label>
+                    <select id="product" name="productID" 
+                        hx-get="/qualities" 
+                        hx-target="#quality" 
+                        hx-trigger="change"
+                        required>
+                        <option value="">--select a product--</option>
+                        {{range .Products}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                    </select>
+                </div><br>
+                
+                <div class="form-group">
+                    <label for="quality">Quality:</label>
+                    <select id="quality" name="quality_id" required>
+                        <option value="">--select a quality--</option>
+                        {{range .Qualities}}<option value="{{.ID}}">{{.StandardID}},{{.GradeID}}</option>{{end}}
+                    </select>
+                </div><br>
+                
+                <div class="form-group">
+                <label for="price">Price per unit:</label>
+                <input type="number" step="0.01" id="price" name="price" required></div><br>  
+                
+                <div class="form-group">
+                    <label for="currency">Currency:</label>
+                    <select id="currency" name="currency_id" >
+                      <option value="">--select a currency--</option>
+                      {{range .Currencies}}<option value="{{.ID}}">{{.Code}}</option>{{end}}
+                    </select></div><br>
+                
+                <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" step="0.01" id="quantity" name="quantity" required></div><br>
+                
+                <div class="form-group">
+                <label for="uom_id">Unit:</label>
+                <select id="uom_id" name="uom_id" hx-target="#uom_id" hx-trigger="load" required>
+                        <option value="">--select a unit--</option>
+                        {{range .UomIDs}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                    </select></div><br>
+                
+                <div class="form-group">
+                <label for="packing_id">Packing:</label>
+                <select id="packing_id" name="packing_id" hx-target="#packing_id" hx-trigger="load" required>
+                    <option value="">--select a packing--</option>
+                    {{range .PackingIDs}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+                
+                
+                <div class="form-group">
+                <label for="payment_term_id">Payment term:</label>
+                <select id="payment_term_id" name="payment_term_id" hx-get="/payment" hx-trigger="change" required>
+                    <option value="">--select a payment term--</option>
+                    {{range .Payments}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                </select></div><br>
+
+                <div class="form-group">
+                    <label for="delivery_term_id">Delivery term:</label>
+                    <select id="delivery_term_id" name="delivery_term_id" hx-get="/delivery"  hx-trigger="change from:#marketspace" hx-target="this" 
+                    hx-include="[name='marketspaceID']" hx-swap="innerHTML" required>
+                        <option value="">--select a delivery term--</option>
+                        {{range .Deliverys}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                    </select></div><br>
+
+                    <div class="form-group">
+                        <label for="country_id">Country:</label>
+                        <select id="country_id" name="country_id" hx-target="#country_id" hx-trigger="load" required>
+                            <option value="">--select Countries--</option>
+                            {{range .CountryIDs}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+                        </select></div><br>
+                    
+<!-- Location sections -->
+<div id="location-fields">
+    <div class="form-group">
+        <label for="province_id">Province/State:</label>
+        <select id="province_id" name="province_id" 
+            hx-get="/district" 
+            hx-trigger="change" 
+            hx-target="#district_id"
+            hx-on::after-request="htmx.trigger('#district_id', 'change')">
+            <option value="">--select a province/state--</option>
+            {{range .Provinces}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+        </select>
+    </div><br>
+    
+    <div class="form-group">
+        <label for="district_id">District/City:</label>
+        <select id="district_id" name="district_id" 
+            hx-get="/subdistrict" 
+            hx-trigger="change" 
+            hx-target="#subdistrict_id">
+            <option value="">--select a district/city--</option>
+            {{range .Districts}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+        </select>
+    </div><br>
+    
+    <div class="form-group">
+        <label for="subdistrict_id">Subdistrict:</label>
+        <select id="subdistrict_id" name="subdistrict_id" 
+            hx-trigger="change from:#district_id">
+            <option value="">--select a subdistrict--</option>
+            {{range .Subdistricts}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+        </select>
+    </div><br>
+</div>
+
+<div id="port-fields">
+    <div class="form-group">
+        <label for="currency">Port of loading:</label>
+        <select id="POL" name="port_of_loading_id">
+            <option value="">--select a port of loading--</option>
+            {{range .Portofloadings}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+        </select>
+    </div><br>
+
+    <div class="form-group">
+        <label for="currency">Port of discharge:</label>
+        <select id="POD" name="port_of_discharge_id">
+            <option value="">--select a port of loading--</option>
+            {{range .Portofdischarges}}<option value="{{.ID}}">{{.EnName}}</option>{{end}}
+        </select>
+    </div><br>
+</div>
+
+                <div class="form-group">
+                <label for="first_delivery_date">First delivery date:</label>
+                <input type="date" id="first_delivery_date" name="first_delivery_date" required></div><br>
+                
+                <div class="form-group">
+                <label for="last_delivery_date">Last delivery date:</label>
+                <input type="date" id="last_delivery_date" name="last_delivery_date" required></div><br>
+                
+                <div class="form-group">
+                <label for="remark">Remark (if any):</label>
+                <input type="text" id="remark" name="remark"></div><br>
+                
+
+                <button type="button" onclick="generateConfirmation()">Submit Order</button>
+            </form>
+            <div id="response"></div>
+        </main>
+    </div>
+
+<div id="confirmationModal" class="modal" style="display:none;">
+    <div class="modal-content" id="modal-content"></div>
+
+</div>
+</div>
+</body>
+
+<footer>
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

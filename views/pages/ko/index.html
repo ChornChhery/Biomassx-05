@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiomassX</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+
+
+    <nav class="navigator">
+        <a href="/" class="nav-brand">BiomassX</a>
+        <a href="/order">Trade</a> | <a href="#">Markets</a> | <a href="#">Products</a> | <a href="#">Services</a> | <a href="/login">Login</a>
+    </nav>
+
+    <main  class="main-logo">  
+        <a>bioenergy exchange platform</a>
+    </main>
+    <div class="content-wrapper">
+    <main class="content">
+        <div class="container">
+            <!--<h1>Bioenergy Exchange Platform Dashboard</h1>-->
+            <div class="grid">
+                <div class="card">
+                    <h2>Current Biomass Price</h2>
+                    <div id="biomass-price" class="value">THB<span>1200.67</span>/MT</div>
+                </div>
+                <div class="card">
+                    <h2>24h Trading Volume</h2>
+                    <div id="trading-volume" class="value">THB<span>1,234,567</span></div>
+                </div>
+                <div class="card">
+                    <h2>Active Orders</h2>
+                    <div id="active-orders" class="value"><span>89</span></div>
+                </div>
+                <div class="card">
+                    <h2>CO2 Emissions Saved (24h)</h2>
+                    <div id="co2-saved" class="value"><span>5,000</span> TCO2eq</div>
+                </div>
+            </div>
+    
+            <div class="card" style="margin-top: 20px;">
+                <h2>Biomass Price Chart (Last 7 Days)</h2>
+                <canvas id="priceChart" width="400" height="200"></canvas>
+            </div>
+    
+            <div class="card" style="margin-top: 20px;  padding-bottom: 50px; ">
+                <h2>Recent Transactions</h2>
+                <table id="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Type</th>
+                            <th>Volume (MT)</th>
+                            <th>Price (THB)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Transactions will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+    
+            <div style="margin-top: 20px;">
+                <button hx-get="/api/refresh-data" hx-target="#dashboard-data" hx-swap="innerHTML">
+                    Refresh Data
+                </button>
+            </div>
+            <div id="dashboard-data"></div>
+        </div>
+    
+        <script>
+            // Initialize price chart
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            const priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['7 days ago', '6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'Yesterday', 'Today'],
+                    datasets: [{
+                        label: 'Biomass Price (THB/MT)',
+                        data: [43.21, 44.52, 45.16, 44.89, 45.67, 46.02, 45.78, 45.67],
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+    
+            // Function to generate random transactions
+            function generateTransactions() {
+                const types = ['Buy', 'Sell'];
+                const transactions = [];
+                for (let i = 0; i < 5; i++) {
+                    transactions.push({
+                        time: new Date(Date.now() - i * 60000).toLocaleTimeString(),
+                        type: types[Math.floor(Math.random() * types.length)],
+                        quantity: Math.floor(Math.random() * (1000 - 100) + 100),
+                        price: (Math.random() * (50 - 40) + 40).toFixed(2)
+                    });
+                }
+                return transactions;
+            }
+    
+            // Function to update transactions table
+            function updateTransactionsTable(transactions) {
+                const tableBody = document.querySelector('#transactions-table tbody');
+                tableBody.innerHTML = '';
+                transactions.forEach(t => {
+                    const row = `<tr>
+                        <td>${t.time}</td>
+                        <td>${t.type}</td>
+                        <td>${t.quantity}</td>
+                        <td>$${t.price}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            }
+    
+            // Simulating API endpoint for refreshing data
+            htmx.on("htmx:afterRequest", function(evt) {
+                if (evt.detail.pathInfo.requestPath === "/api/refresh-data") {
+                    const newData = {
+                        biomassPrice: (Math.random() * (50 - 40) + 40).toFixed(2),
+                        tradingVolume: Math.floor(Math.random() * (2000000 - 1000000) + 1000000),
+                        activeOrders: Math.floor(Math.random() * (150 - 50) + 50),
+                        co2Saved: Math.floor(Math.random() * (10000 - 4000) + 4000)
+                    };
+    
+                    document.querySelector('#biomass-price span').textContent = newData.biomassPrice;
+                    document.querySelector('#trading-volume span').textContent = newData.tradingVolume.toLocaleString();
+                    document.querySelector('#active-orders span').textContent = newData.activeOrders;
+                    document.querySelector('#co2-saved span').textContent = newData.co2Saved.toLocaleString();
+    
+                    // Update chart
+                    priceChart.data.datasets[0].data.shift();
+                    priceChart.data.datasets[0].data.push(newData.biomassPrice);
+                    priceChart.update();
+    
+                    // Update transactions
+                    updateTransactionsTable(generateTransactions());
+    
+                    evt.detail.target.innerHTML = `
+                        <p style="color: #28a745;">Data refreshed at ${new Date().toLocaleTimeString()}</p>
+                    `;
+                }
+            });
+    
+            // Initial population of transactions table
+            updateTransactionsTable(generateTransactions());
+        </script>
+        </div>
+    </main>
+    
+
+
+    <footer class="footer">
+        <br>
+        <a href="/about">About</a> | <a href="/faqs">FAQs</a> | <a href="/contact">Contact</a><br>
+        <p> &copy; 2024 BIOMASS EXCHANGE CO., LTD.</p>
+        <br>
+    </footer>
+</body>
+</html>

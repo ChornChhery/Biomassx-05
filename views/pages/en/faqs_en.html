@@ -1,0 +1,17 @@
+{{ define "content" }}
+<nav class="navigator">
+    <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+    <a href="/order?lang={{ .lang }}">Trade</a> | <a href="/markets?lang={{ .lang }}">Markets</a> | <a href="/productspage?lang={{ .lang }}">Products</a> | <a href="services?lang={{ .lang }}">Services</a> | <a href="/login?lang={{ .lang }}">Login</a>
+</nav>
+
+<main class="main-dashboard">
+  <h2>Frequently Asked Questions</h2>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

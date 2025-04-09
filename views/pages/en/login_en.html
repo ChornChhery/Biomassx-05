@@ -1,0 +1,32 @@
+{{ define "content" }}
+<nav>
+    <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+</nav>
+
+<main class="main-dashboard">
+<form hx-post="/login?lang={{ .lang }}" hx-target="#message" hx-swap="innerHTML" >
+    <h2>Login</h2>
+    <div id="message"></div>
+        <div class="loginform-group">
+            <label for="username">Username : </label>
+            <input type="text" id="username" name="username" required>
+        </div>
+            <br><br>
+        <div class="loginform-group">
+            <label for="password">Password : </label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <br><br>
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="/register?lang={{ .lang }}">Register</a></p> 
+</form>
+<div id="message"></div>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

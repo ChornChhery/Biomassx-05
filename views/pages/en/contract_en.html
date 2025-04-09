@@ -1,0 +1,144 @@
+
+{{define "content"}}
+<nav class="vertical-nav">
+    <a href="/?lang={{ .Lang }}" class="vertical-nav-brand">BiomassX</a>
+    <div class="vertical-nav-menu">
+        <a href="/dashboard?lang={{ .Lang }}" class="nav-item">Dashboard</a>
+      <span class="nav-category">Order to buy/sell</span>
+      <a href="/order?lang={{ .Lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+      
+      <span class="nav-category">Contract</span>
+      <a href="/contract?lang={{ .Lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+      <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+      
+      <span class="nav-category">Setting</span>
+      <a href = "/profile?lang={{ .Lang }}" class="nav-subcategory">&nbsp;&nbsp;&nbsp;profile</a>
+      <br>
+      <a href="/logout?lang={{ .Lang }}" hx-post="/logout?lang={{ .Lang }}" hx-redirect="/login?lang={{ .Lang }}" class="nav-item">Logout</a>
+    </div>
+  </nav>  
+<main class="main-dashboard main-with-vertical-nav">
+<h3>My contract(s)</h3>
+<div class="container">
+    {{if .SellContracts}}
+    <h3>Sell contract(s)</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Contract date</th> 
+                <th>Seller</th>
+                <th>Organization</th>
+                <th>Buyer</th>
+                <th>Organization</th>
+                <th>Quality</th>
+                <th>Price</th>
+                <th>Qty.</th>
+                <th>Packing name</th>
+                <th>Delivery term</th>
+                <th>Delivery status</th>
+                <th>Payment term</th>
+                <th>Payment status</th>
+                <th>Seller confirmation</th>
+                <th>Buyer confirmation</th>
+                <th>Contract status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .SellContracts}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{if .ContractDate.IsZero}}N/A{{else}}{{.ContractDate.Format "02-01-2006"}}{{end}}</td>
+                <td>{{if .SellerFirstName.Valid}}{{.SellerFirstName.String}} {{.SellerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerOrgName.Valid}}{{.SellerOrgName.String}}{{else}}-{{end}}</td>
+                <td>{{if .BuyerFirstName.Valid}}{{.BuyerFirstName.String}} {{.BuyerLastName.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerOrgName.Valid}}{{.BuyerOrgName.String}}{{else}}-{{end}}</td>
+                <td>
+                    {{if .StandardEnName.Valid}}Standard: {{.StandardEnName.String}} - {{else}}Standard: N/A - {{end}}
+                    {{if .GradeEnName.Valid}}Grade: {{.GradeEnName.String}}{{else}}Grade: N/A{{end}}
+                </td>
+                <td>{{.Price}} {{if .CurrencyEnName.Valid}}{{.CurrencyEnName.String}}{{else}}N/A{{end}}</td>
+                <td>{{.Quantity}} {{if .UomEn.Valid}}{{.UomEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PackingEn.Valid}}{{.PackingEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryTermEn.Valid}}{{.DeliveryTermEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .DeliveryStatusEn.Valid}}{{.DeliveryStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentTermEn.Valid}}{{.PaymentTermEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .PaymentStatusEn.Valid}}{{.PaymentStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .SellerConfirmStatusEn.Valid}}{{.SellerConfirmStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .BuyerConfirmStatusEn.Valid}}{{.BuyerConfirmStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td>{{if .ContractStatusEn.Valid}}{{.ContractStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td><a href="/contract/{{.ID}}?lang={{ $.Lang }}" class="btn">View</a></td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{end}}
+
+    {{if .BuyContracts}}
+    <h3>Buy contract(s)</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Contract date</th> 
+                <th>Seller</th>
+                <th>Organization</th>
+                <th>Buyer</th>
+                <th>Organization</th>
+                <th>Quality</th>
+                <th>Price</th>
+                <th>Qty.</th>
+                <th>Packing name</th>
+                <th>Delivery term</th>
+                <th>Delivery status</th>
+                <th>Payment term</th>
+                <th>Payment status</th>
+                <th>Seller confirmation</th>
+                <th>Buyer confirmation</th>
+                <th>Contract status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .BuyContracts}}
+            <tr>
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{if .ContractDate.IsZero}}N/A{{else}}{{.ContractDate.Format "02-01-2006"}}{{end}}</td>
+                    <td>{{if .SellerFirstName.Valid}}{{.SellerFirstName.String}} {{.SellerLastName.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .SellerOrgName.Valid}}{{.SellerOrgName.String}}{{else}}-{{end}}</td>
+                    <td>{{if .BuyerFirstName.Valid}}{{.BuyerFirstName.String}} {{.BuyerLastName.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .BuyerOrgName.Valid}}{{.BuyerOrgName.String}}{{else}}-{{end}}</td>
+                    <td>
+                        {{if .StandardEnName.Valid}}Standard: {{.StandardEnName.String}} - {{else}}Standard: N/A - {{end}}
+                        {{if .GradeEnName.Valid}}Grade: {{.GradeEnName.String}}{{else}}Grade: N/A{{end}}
+                    </td>
+                    <td>{{.Price}} {{if .CurrencyEnName.Valid}}{{.CurrencyEnName.String}}{{else}}N/A{{end}}</td>
+                    <td>{{.Quantity}} {{if .UomEn.Valid}}{{.UomEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .PackingEn.Valid}}{{.PackingEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .DeliveryTermEn.Valid}}{{.DeliveryTermEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .DeliveryStatusEn.Valid}}{{.DeliveryStatusEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .PaymentTermEn.Valid}}{{.PaymentTermEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .PaymentStatusEn.Valid}}{{.PaymentStatusEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .SellerConfirmStatusEn.Valid}}{{.SellerConfirmStatusEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .BuyerConfirmStatusEn.Valid}}{{.BuyerConfirmStatusEn.String}}{{else}}N/A{{end}}</td>
+                    <td>{{if .ContractStatusEn.Valid}}{{.ContractStatusEn.String}}{{else}}N/A{{end}}</td>
+                <td><a href="/contract/{{.ID}}?lang={{ $.Lang }}" class="btn">View</a></td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    {{end}}
+</div>
+</main>
+<footer class="footer">
+    <br>
+    <a href="/about?lang={{ .Lang }}">About</a> | <a href="/faqs?lang={{ .Lang }}">FAQs</a> | <a href="/contact?lang={{ .Lang }}">Contact</a><br>
+    <p> &copy; 2024 BIOMASS EXCHANGE CO., LTD.</p>
+    <br>
+  </footer>
+{{end}}

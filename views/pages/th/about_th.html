@@ -1,0 +1,20 @@
+{{ define "content" }}
+<nav class="navigator">
+  <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+  <a href="/order?lang={{ .lang }}">เสนอซื้อขาย</a> | <a href="/markets?lang={{ .lang }}">ตลาด</a> | <a href="/productspage?lang={{ .lang }}">สินค้า</a> | <a href="/services?lang={{ .lang }}">บริการ</a> | <a href="/login?lang={{ .lang }}?lang={{ .lang }}">เข้าสู่ระบบ</a>
+</nav>
+
+<main class="main-dashboard">
+    <h3>ตลาดกลางพลังงานชีวภาพ</h3>
+    <a>
+      แพลตฟอร์ม BiomassX เป็นบริการตลาดกลางพลังงานชีวภาพ สมาชิกตลาด (user) สามารถเสนอซื้อหรือเสนอขายได้หลายหมวดหมู่เช่น วัตถุดิบชีวภาพ (biomass), เชื้อเพลิงชีวภาพแข็ง (solid biofuels), เชื้อเพลิงชีวภาพเหลว (liquid biofuels), เชื้อเพลิงชีวภาพก๊าช (gaseous biofuels), รวมไปถึงพลังงานชีวภาพขั้นสุดท้ายในรูปแบบต่าง ๆ เช่น ความร้อน (heat), ความเย็น (cool), ไอน้ำ (steam) และไฟฟ้า (power) สามารถซื้อขายได้ทั้งสัญญาระยะสั้น (SPOT contract) และสัญญาระยะยาว (FORWARD contract) ครอบคลุมทั้งตลาดท้องถิ่น (ในประเทศ) และตลาดโลก (นำเข้า/ส่งออก) โดยวิธีการจับคู่สัญญาอัตโนมัติด้วยระบบคอมพิวเตอร์และอัลกอริทึ่มหลายแบบตามคำสั่งเสนอซื้อ (bid) และ คำสั่งเสนอขาย (offer) ด้วยความโปร่งใส ทันเวลา ในราคาที่ดีที่สุด ตลอด 7 วัน 24 ชั่วโมง.
+    </a>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br>
+</footer>
+{{ end }}

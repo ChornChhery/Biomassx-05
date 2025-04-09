@@ -1,0 +1,23 @@
+{{ define "content" }}
+<nav class="navigator">
+    <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+    <a href="/order?lang={{ .lang }}">เสนอซื้อขาย</a> | <a href="/markets?lang={{ .lang }}">ตลาด</a> | <a href="/productspage?lang={{ .lang }}">สินค้า</a> | <a href="/services?lang={{ .lang }}">บริการ</a> | <a href="/login?lang={{ .lang }}">เข้าสู่ระบบ</a>
+</nav>
+
+<main class="main-dashboard">
+<h2>ติดต่อเรา</h2>
+โทร: +66 (0)95 926 3663<br>
+<!--<img src="/static/images/app-icon130x130.png" style="height:42px; max-height: 42px; max-width:42px; width: 42px;">-->
+ไลน์ไอดี: biomassx<br>
+<!--<img src="/static/images/app-icon130x130.png" style="height:42px; max-height: 42px; max-width:42px; width: 42px;">-->
+WhatsApp: +66 95 926 3663<br>
+อีเมลล์: <a href= "mailto:cs@biomassx.com">cs@biomassx.com<br>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+  <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+  <br>
+</footer>
+{{ end }}

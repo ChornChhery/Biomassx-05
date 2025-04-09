@@ -1,0 +1,32 @@
+{{ define "content" }}
+<nav>
+    <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+</nav>
+
+<main class="main-dashboard main-with-vertical-nav">
+<form hx-post="/login?lang={{ .lang }}" hx-target="#message" hx-swap="innerHTML" >
+    <h2>เข้าสู่ระบบ</h2>
+    <div id="message"></div>
+        <div class="loginform-group">
+            <label for="username">ชื่อผู้ใช้ : </label>
+            <input type="text" id="username" name="username" required>
+        </div>
+            <br><br>
+        <div class="loginform-group">
+            <label for="password">รหัสผ่าน : </label>
+            <input type="password" id="password" name="password" required>
+        </div>
+            <br><br>
+            <button type="submit">เข้าสู่ระบบ</button>
+            <p>หากไม่มีบัญชีผู้ใช้? <a href="/register?lang={{ .lang }}">สมัครบัญชีผู้ใช้</a></p>
+</form>
+<div id="message"></div>
+</main>
+
+<footer class="footer">
+    <br>
+    <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+    <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+    <br>
+  </footer>
+{{ end }}

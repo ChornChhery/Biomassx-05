@@ -1,0 +1,102 @@
+{{ define "content" }}
+<nav class="vertical-nav">
+    <a href="/?lang={{ .Lang }}" class="vertical-nav-brand">BiomassX</a>
+    <div class="vertical-nav-menu">
+        <a href="/dashboard?lang={{ .Lang }}" class="nav-item">Dashboard</a>
+      <span class="nav-category">Order</span>
+      <a href="/order?lang={{ .Lang }}" class="nav-item">products</a>
+      <a class="nav-subcategory">services</a>
+      <a class="nav-subcategory">assets</a>
+      
+      <span class="nav-category">History</span>
+      <a href="/contract?lang={{ .Lang }}" class="nav-item">products</a>
+      <a class="nav-subcategory">services</a>
+      <a class="nav-subcategory">assets</a>
+      
+      <span class="nav-category">Setting</span>
+      <a href = "/profile?lang={{ .Lang }}" class="nav-subcategory">profile</a>
+      <a href="/logout?lang={{ .Lang }}" hx-post="/logout?lang={{ .Lang }}" hx-redirect="/login?lang={{ .Lang }}" class="nav-item">Logout</a>
+    </div>
+  </nav>
+  
+
+<main class="main-dashboard main-with-vertical-nav">
+    <div class="dashboard-content">
+        <h2 class="contract-title">Contract Number: {{.Contract.ID}}</h2>
+        <p class="contract-date">Contract date: {{if .Contract.ContractDate.IsZero}}N/A{{else}}{{.Contract.ContractDate.Format "02-01-2006"}}{{end}}</p>
+        
+        <section class="contract-section">
+            <h2>Parties</h2>
+            <p>Seller: {{.Contract.SellerFirstName.String}} {{.Contract.SellerLastName.String}}</p>
+            <p>Organization name: {{if .Contract.SellerOrgName.Valid}}{{.Contract.SellerOrgName.String}}{{else}}-{{end}}</p>
+            <p>Buyer: {{.Contract.BuyerFirstName.String}} {{.Contract.BuyerLastName.String}}</p>
+            <p>Organization name: {{if .Contract.BuyerOrgName.Valid}}{{.Contract.BuyerOrgName.String}}{{else}}-{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>Product details</h2>
+            <p>Product: {{if .Contract.ProductEnName.Valid}}{{.Contract.ProductEnName.String}}{{else}}N/A{{end}}</p>
+            <p>Standard: {{if .Contract.StandardEnName.Valid}}{{.Contract.StandardEnName.String}}{{else}}N/A{{end}}</p>
+            <p>Grade: {{if .Contract.GradeEnName.Valid}}{{.Contract.GradeEnName.String}}{{else}}N/A{{end}}</p>
+            <p>Quantity: {{.Contract.Quantity}} {{if .Contract.UomEn.Valid}}{{.Contract.UomEn.String}}{{else}}N/A{{end}}</p>
+            <p>Packing: {{if .Contract.PackingEn.Valid}}{{.Contract.PackingEn.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>Financial terms</h2>
+            <p>Price: {{.Contract.Price}} {{if .Contract.CurrencyEnName.Valid}}{{.Contract.CurrencyEnName.String}}{{else}}N/A{{end}}</p>
+            <p>Payment term: {{if .Contract.PaymentTermEn.Valid}}{{.Contract.PaymentTermEn.String}}{{else}}N/A{{end}}</p>
+            <p>Payment status: {{if .Contract.PaymentStatusEn.Valid}}{{.Contract.PaymentStatusEn.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>Delivery terms</h2>
+            <p>Delivery term: {{if .Contract.DeliveryTermEn.Valid}}{{.Contract.DeliveryTermEn.String}}{{else}}N/A{{end}}</p>
+            <p>Start delivery: {{if .Contract.StartDelivery.Valid}}{{.Contract.StartDelivery.Time.Format "02-01-2006"}}{{else}}N/A{{end}}</p>
+            <p>Finish delivery: {{if .Contract.FinishDelivery.Valid}}{{.Contract.FinishDelivery.Time.Format "02-01-2006"}}{{else}}N/A{{end}}</p>
+            <p><strong>Place of delivery:</strong></p>
+            <p>Seller Country: {{.Contract.SellerCountryEn.String}}</p>
+            <p>Buyer Country: {{.Contract.BuyerCountryEn.String}}</p>
+            <p>Province: {{if .Contract.PodProvinceEn.Valid}}{{.Contract.PodProvinceEn.String}}{{else}}N/A{{end}}</p>
+            <p>District: {{if .Contract.PodDistrictEn.Valid}}{{.Contract.PodDistrictEn.String}}{{else}}N/A{{end}}</p>
+            <p>Subdistrict: {{if .Contract.PodSubdistrictEn.Valid}}{{.Contract.PodSubdistrictEn.String}}{{else}}N/A{{end}}</p>
+            <p><strong>Ports of delivery:</strong></p>
+            <p>Seller port of loading: {{if .Contract.SellerPolEn.Valid}}{{.Contract.SellerPolEn.String}}{{else}}N/A{{end}}</p>
+            <p>Seller port of discharge: {{if .Contract.SellerPodEn.Valid}}{{.Contract.SellerPodEn.String}}{{else}}N/A{{end}}</p>
+            <p>Buyer port of loading: {{if .Contract.BuyerPolEn.Valid}}{{.Contract.BuyerPolEn.String}}{{else}}N/A{{end}}</p>
+            <p>Buyer port of discharge: {{if .Contract.BuyerPodEn.Valid}}{{.Contract.BuyerPodEn.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>Contract status</h2>
+            <p>Seller confirmation: {{if .Contract.SellerConfirmStatusEn.Valid}}{{.Contract.SellerConfirmStatusEn.String}}{{else}}N/A{{end}}</p>
+            <p>Buyer confirmation: {{if .Contract.BuyerConfirmStatusEn.Valid}}{{.Contract.BuyerConfirmStatusEn.String}}{{else}}N/A{{end}}</p>
+        </section>
+
+        <section class="contract-section">
+            <h2>Remarks</h2>
+            <p>Seller: {{if .Contract.SellerRemark.Valid}}{{.Contract.SellerRemark.String}}{{else}}N/A{{end}}</p>
+            <p>Buyer: {{if .Contract.BuyerRemark.Valid}}{{.Contract.BuyerRemark.String}}{{else}}N/A{{end}}</p>
+        </section>  
+
+        <section class="contract-section">
+            <h2>Contract actions</h2>
+            <div class="button-stack">
+                <button 
+                    class="sign-button" 
+                    hx-post="/sign"
+                    hx-vals='{"contract_id": "{{.Contract.ID}}"}'
+                >
+                    Sign contract
+                </button>
+                
+                {{if and (eq .Contract.SellerConfirmStatusEn.String "signed") (eq .Contract.BuyerConfirmStatusEn.String "signed") (eq .Contract.ContractStatusEn.String "signed")}}
+                <a href="/download-pdfEn/{{.Contract.ID}}" class="sign-button download-btn">
+                    Download PDF
+                </a>
+                {{end}}
+            </div>
+        </section>
+    </div>
+</main>    
+{{end}}

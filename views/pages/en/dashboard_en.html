@@ -1,0 +1,34 @@
+{{ define "content" }}
+<nav class="vertical-nav">
+  <a href="/?lang={{ .lang }}" class="vertical-nav-brand">BiomassX</a>
+  <div class="vertical-nav-menu">
+    <a href="/dashboard?lang={{ .lang }}" class="nav-item">Dashboard</a>
+    <span class="nav-category">Order to buy/sell</span>
+    <a href="/order?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+    <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+    <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+    
+    <span class="nav-category">Contract</span>
+    <a href="/contract?lang={{ .lang }}" class="nav-item">&nbsp;&nbsp;&nbsp;products</a>
+    <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;services</a>
+    <a class="nav-subcategory">&nbsp;&nbsp;&nbsp;assets</a>
+    
+    <span class="nav-category">Setting</span>
+    <a href = "/profile?lang={{ .lang }}" class="nav-subcategory">&nbsp;&nbsp;&nbsp;profile</a>
+    <br>
+    <a href="/logout?lang={{ .lang }}" hx-post="/logout?lang={{ .lang }}" hx-redirect="/login?lang={{ .lang }}" class="nav-item">Logout</a>
+  </div>
+</nav>
+
+<main class="main-dashboard main-with-vertical-nav">
+  <h3>My dashboard</h3>
+  <p>You have logged in to BiomassX.</p>
+</main>
+
+<footer class="footer-with-vertical-nav">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br> 
+</footer>
+{{ end }}

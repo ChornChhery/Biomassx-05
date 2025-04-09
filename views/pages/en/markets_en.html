@@ -1,0 +1,47 @@
+{{ define "content" }}
+<nav class="navigator">
+  <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+  <a href="/order?lang={{ .lang }}">Trade</a> |
+  <a href="/markets?lang={{ .lang }}">Markets</a> |
+  <a href="/productspage?lang={{ .lang }}">Products</a> |
+  <a href="services?lang={{ .lang }}">Services</a> |
+  <a href="/login?lang={{ .lang }}">Login</a>
+  </div>
+</nav>
+
+<main class="main-dashboard">
+  <h2>Markets</h2>
+    <a>
+      <b>Main markets:</b><br>
+        <br>&nbsp; &nbsp;1. Biomass feedstock markets<br> 
+        <br>&nbsp; &nbsp;2. Biofuel markets (solid biofuels, liquid biofuels and gaseous biofuels)<br>
+        <br>&nbsp; &nbsp;3. Bioenergy markets (heating, cooling, steam and power)<br>
+        <br>
+      <b>Submarkets:</b><br>
+        <br>&nbsp;&nbsp; 1. Agricultural residues<br>
+        <br>&nbsp;&nbsp; 2. Animal waste<br>
+        <br>&nbsp;&nbsp; 3. Aquatic biomass<br>
+        <br>&nbsp;&nbsp; 4. Blends and mixtures<br>
+        <br>&nbsp;&nbsp; 5. Commercial waste and by-products<br>
+        <br>&nbsp;&nbsp; 6. Cooling<br>
+        <br>&nbsp;&nbsp; 7. Energy crops<br>
+        <br>&nbsp;&nbsp; 8. Fruit residues<br>
+        <br>&nbsp;&nbsp; 9. Gaseous biofuels<br>
+        <br>10. Heating<br>
+        <br>11. Industrial waste and by-products<br>
+        <br>12. Liquid biofuels<br>
+        <br>13. Power/Electricity<br>
+        <br>14. Residential waste and by-products<br>
+        <br>15. Solid biofuels<br>
+        <br>16. Steam<br>
+        <br>17. Woody residues<br>      
+    </a>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

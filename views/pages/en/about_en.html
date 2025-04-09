@@ -1,0 +1,44 @@
+{{ define "content" }}
+<nav class="navigator">
+  <a href="/?lang={{ .lang }}" class="nav-brand">BiomassX</a>
+  <a href="/order?lang={{ .lang }}">Trade</a> | <a href="/markets?lang={{ .lang }}">Markets</a> | <a href="/productspage?lang={{ .lang }}">Products</a> | <a href="services?lang={{ .lang }}">Services</a> | <a href="/login?lang={{ .lang }}">Login</a>
+</nav>
+
+<main class="main-dashboard">
+  <h2>About us</h2>
+    <a>
+      <b>Who we are:</b>
+      <br>
+      We are a team passionate about technologies for marketplace and exchange platforms.
+      <br> 
+      <br>
+      <b>What we do:</b>
+      <br>
+      The BiomassX platform is a bioenergy marketplace service. Market members (users) can buy (bid) or sell (offer) various product categories such as biomass, pulp & paper materials, solid biofuels, liquid biofuels, gaseous biofuels, as well as various forms of final bioenergy such as power, steam, heat and cool. Both short-term (SPOT) contract and long-term (FORWARD) contract can be traded, covering both local (domestic) and global (import/export) markets by automatic contract matching with algorithms according to bid and offer orders by users with transparency, timeliness, and the always best price, 24 hours a day, 7 days a week.
+      <br>
+      <br>
+      <b>What we deliver:</b>
+      <br>
+      <i>Enhanced market efficiency</i>
+      <br>
+      - whether buyers or sellers, want a platform that optimizes transactions, reduces waste, and ensures fair pricing. A well-functioning matching system improves decision-making and market responsiveness.
+      <br>
+      <br>
+      <i>Increased transparency</i>
+      <br> 
+      - Trust is crucial in any exchange platform. Users need visibility into pricing, supply-demand dynamics, and transaction history to make informed decisions. Transparency also helps with regulatory compliance.
+      <br>
+      <br>
+      <i>Reduced transaction costs</i>
+      <br> 
+      - Lower commission/brokerage fees and operational costs directly impact profitability for both buyers and sellers. By automating and optimizing the trading process with matching engine, the platform can significantly cut costs and get always best prices at time of trading.
+    </a>
+</main>
+
+<footer class="footer">
+  <br>
+  <a href="/about?lang={{ .lang }}">About us</a> | <a href="/faqs?lang={{ .lang }}">FAQs</a> | <a href="/contact?lang={{ .lang }}">Contact us</a><br>
+  <p>BIOMASS EXCHANGE CO., LTD.</p>
+  <br>
+</footer>
+{{ end }}

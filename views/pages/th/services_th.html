@@ -1,0 +1,31 @@
+{{ define "content" }}
+<nav class="navigator">
+    <a href="/?lang={{ .lang }}"class="nav-brand">BiomassX</a>
+    <a href="/order?lang={{ .lang }}">ซื้อขายสินค้า</a> | <a href="/markets?lang={{ .lang }}">ตลาด</a> | <a href="/productspage?lang={{ .lang }}">สินค้า</a> | <a href="/services?lang={{ .lang }}">บริการ</a>  <a href="/login?lang={{ .lang }}">เข้าสู่ระบบ</a>
+</nav>
+
+<main class="main-dashboard">
+    <h2>ตลาดบริการ</h2>
+      <a>
+        <b>บริการหลัก:</b><br>
+          <br>&nbsp; &nbsp;1. บริการขนส่งสินค้าทางบก/ทางน้ำ<br> 
+          <br>&nbsp; &nbsp;2. บริการจัดเก็บสินค้า/โกดัง<br>
+          <br>&nbsp; &nbsp;3. บริการท่าเรือ<br>
+          <br>&nbsp; &nbsp;4. บริการตรวจสอบ/ตรวจรับรอง/วิเคราะห์คุณภาพ/รมยา<br>
+          <br>&nbsp; &nbsp;5. บริการจัดการขยะและของเสีย<br>
+          <br>&nbsp; &nbsp;6. บริการเทคโนโลยี/เครื่องจักร/อุปกรณ์สำหรับพลังงานชีวภาพ<br>
+          <br>&nbsp; &nbsp;7. บริการปฏิบัติการ/บำรุงรักษา/ซ่อม<br>
+          <br>&nbsp; &nbsp;8. บริการที่ปรึกษา<br>
+          <br>&nbsp; &nbsp;9. บริการวิจัยและพัฒนา<br>
+          <br>
+        <b>บริการย่อย:</b><br>
+      </a>
+  </main>
+
+<footer class="footer">
+    <br>
+    <a href="/about?lang={{ .lang }}">เกี่ยวกับเรา</a> | <a href="/faqs?lang={{ .lang }}">คำถามพบบ่อย</a> | <a href="/contact?lang={{ .lang }}">ติดต่อเรา</a><br>
+    <p>บริษัท ไบโอแมส เอ็กซ์เชนจ์ จำกัด</p>
+    <br>
+</footer>
+{{ end }}
