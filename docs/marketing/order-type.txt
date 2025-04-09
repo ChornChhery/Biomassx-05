@@ -1,0 +1,63 @@
+In an exchange platform, order types are typically classified based on their execution conditions, duration, and pricing mechanisms. For your bioenergy exchange platform, here are some common classifications:
+
+### 1. **Market Orders**
+   - **Description**: Executes immediately at the best available price in the market.
+   - **Use case**: When immediate execution is more important than the price.
+   - **Example**: Buying 100 units of bioenergy at the current market price.
+
+### 2. **Limit Orders**
+   - **Description**: Executes only at a specified price or better.
+   - **Use case**: When the trader wants to control the price at which the order is filled.
+   - **Example**: Selling 50 units of biomass if the price reaches $50 per unit.
+
+### 3. **Stop Orders (Stop-Loss)**
+   - **Description**: Converts to a market order when a specified price is reached, protecting against significant losses.
+   - **Use case**: Often used to limit potential losses or lock in profits.
+   - **Example**: Setting a stop order to sell 100 units of bioenergy if the price drops to $40.
+
+### 4. **Stop-Limit Orders**
+   - **Description**: A combination of a stop order and a limit order. When the stop price is reached, the order becomes a limit order instead of a market order.
+   - **Use case**: Used when you want control over both the trigger price and the execution price.
+   - **Example**: Selling bioenergy at a limit of $45 when the price drops to $40.
+
+### 5. **Fill or Kill (FOK)**
+   - **Description**: The entire order must be executed immediately at the specified price, or the order is canceled.
+   - **Use case**: Useful when partial fills are not acceptable.
+   - **Example**: Buying 500 units of bioenergy at $48 per unit, and if the entire order cannot be filled, it’s canceled.
+
+### 6. **Immediate or Cancel (IOC)**
+   - **Description**: The order must be filled immediately, but partial fills are allowed. Any unfilled portion is canceled.
+   - **Use case**: When you want as much of the order filled as possible immediately, without waiting for full execution.
+   - **Example**: Buying as many bioenergy units as possible at $46, but canceling any unfilled portion.
+
+### 7. **Good 'Til Canceled (GTC)**
+   - **Description**: The order remains active until it is either filled or manually canceled.
+   - **Use case**: Used when there is no rush, and you are waiting for a specific price.
+   - **Example**: Selling 200 units of biomass at $52, and the order stays open until it is filled.
+
+### 8. **Day Orders**
+   - **Description**: The order remains active until the end of the trading day, after which it expires if not filled.
+   - **Use case**: When the trader wants the order to be valid only for the current trading session.
+   - **Example**: Buying 300 units of bioenergy at $47, but canceling if it’s not filled by the end of the day.
+
+### 9. **All or None (AON)**
+   - **Description**: The order is executed only if the entire quantity can be filled; otherwise, it remains open until canceled or filled completely.
+   - **Use case**: Used when partial orders are not acceptable.
+   - **Example**: Selling 1000 units of bioenergy only if all 1000 units can be sold at $50.
+
+### 10. **Auction Orders**
+   - **Description**: Orders that are only executed during an auction period, often at the opening or closing of the market.
+   - **Use case**: Used to get the best price during high liquidity periods like opening or closing.
+   - **Example**: Participating in an auction for biomass units at the market close.
+
+### 11. **Trailing Stop Orders**
+   - **Description**: A stop order that moves with the market price by a specified percentage or dollar amount.
+   - **Use case**: Used to lock in profits while allowing for upward price movement.
+   - **Example**: Setting a trailing stop for selling biomass where the stop price is 5% below the current market price.
+
+### Customization for Bioenergy Trading:
+For your bio-circular-green trading platform, you may also consider specific custom order types tailored to the sector, such as:
+   - **Environmental Impact Orders**: Trades that prioritize sellers or buyers with lower carbon footprints.
+   - **Compliance-based Orders**: Orders that only trigger if certain regulatory conditions are met (e.g., meeting sustainability certification standards).
+
+Each type serves different trading strategies, and you may customize these types to fit the specific needs of bioenergy trading.

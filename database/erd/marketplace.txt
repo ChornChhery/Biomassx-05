@@ -1,0 +1,75 @@
+erDiagram (bioenergy marketplace)
+
+    USER ||--o{ PRODUCT : lists
+    USER ||--o{ ORDER : places
+    PRODUCT ||--o{ ORDER_ITEM : contains
+    ORDER ||--o{ ORDER_ITEM : includes
+    BIOMASS_CATEGORY ||--o{ PRODUCT : categorizes
+    LOCATION ||--o{ USER : has
+    LOCATION ||--o{ PRODUCT : originates_from
+    REVIEW ||--o{ USER : receives
+    REVIEW ||--o{ USER : gives
+    REVIEW }|--|| PRODUCT : about
+
+    USER {
+        int user_id PK
+        string username
+        string email
+        string password_hash
+        date registration_date
+        string user_type
+    }
+
+    PRODUCT {
+        int product_id PK
+        int seller_id FK
+        int biomass_category_id FK
+        int location_id FK
+        string name
+        text description
+        float price_per_unit
+        string unit
+        float available_quantity
+        date listed_date
+    }
+
+    ORDER {
+        int order_id PK
+        int buyer_id FK
+        date order_date
+        float total_amount
+        string status
+    }
+
+    ORDER_ITEM {
+        int order_item_id PK
+        int order_id FK
+        int product_id FK
+        float quantity
+        float price_per_unit
+    }
+
+    BIOMASS_CATEGORY {
+        int biomass_category_id PK
+        string name
+        string description
+    }
+
+    LOCATION {
+        int location_id PK
+        string city
+        string state
+        string country
+        float latitude
+        float longitude
+    }
+
+    REVIEW {
+        int review_id PK
+        int reviewer_id FK
+        int reviewee_id FK
+        int product_id FK
+        int rating
+        text comment
+        date review_date
+    }

@@ -1,0 +1,92 @@
+erDiagram (Bioenergy Trading Platform)
+
+    USER ||--o{ TRADE_ORDER : places
+    USER ||--o{ PORTFOLIO : owns
+    TRADE_ORDER ||--o{ TRADE : executes
+    BIOENERGY_PRODUCT ||--o{ TRADE_ORDER : involves
+    BIOENERGY_PRODUCT ||--o{ MARKET_DATA : has
+    PORTFOLIO ||--o{ POSITION : contains
+    POSITION }|--|| BIOENERGY_PRODUCT : tracks
+    LOCATION ||--o{ USER : has
+    LOCATION ||--o{ BIOENERGY_PRODUCT : originates_from
+    
+    //Represents platform users who can place trade orders and own portfolios.
+    USER {
+        int     user_id PK
+        string  username
+        string  email
+        string  password_hash
+        date    registration_date
+        string  user_type
+        float   account_balance
+    }
+    
+    //Represents buy or sell orders placed by users.
+    TRADE_ORDER {
+        int     order_id PK
+        int     user_id FK
+        int     product_id FK
+        string  order_type
+        float   quantity
+        float   price
+        string  status
+        date    created_at
+    }
+    
+    //Represents the execution of matching buy and sell orders.
+    TRADE {
+        int     trade_id PK
+        int     buyer_order_id FK
+        int     seller_order_id FK
+        float   quantity
+        float   price
+        date    executed_at
+    }
+
+    //Represents different bioenergy products available for trading.
+    BIOENERGY_PRODUCT {
+        int     product_id PK
+        string  name
+        string  description
+        string  unit
+        int     location_id FK
+    }
+
+    //Stores historical price and volume data for each product.
+    MARKET_DATA {
+        int     data_id PK
+        int     product_id FK
+        float   open_price
+        float   close_price
+        float   high_price
+        float   low_price
+        float   volume
+        date    date
+    }
+    
+    //Represents a user's collection of bioenergy product positions.
+    PORTFOLIO {
+        int     portfolio_id PK
+        int     user_id FK
+        float   total_value
+        date    last_updated
+    }
+
+    //Represents a user's holding of a specific bioenergy product.
+    POSITION {
+        int     position_id PK
+        int     portfolio_id FK
+        int     product_id FK
+        float   quantity
+        float   average_price
+    }
+    
+    //Stores location information for users and products.
+    LOCATION {
+        int     location_id PK
+        string  city
+        string  state
+        string  country
+        float   latitude
+        float   longitude
+    }

@@ -1,0 +1,27 @@
+Naming convention alignment HTMX-JSON-Go-PostgreSQL
+
+HTMX
+|--file name = kebab-case.html
+|--htmx attributes = kebab-case
+|--hx-endpoint = kebab-case
+|--label = camelCase
+|--id = camelCase (compatible with JSON)
+|--name = camelCase (compatible with JSON)
+|--variable name = camelCase
+
+JSON
+|--JSON = camelCase
+
+Golang
+|--file name = kebab-case.go 
+|--struct PascalCase datatype form:"camelCase" json:"camelCase" db:"snake_case"
+|--function name = camelCase(unexported) / PascalCase (exported)
+|--variable name = camelCase(private) / PascalCase (public)
+
+PostgreSQL
+|--database name = snake_case
+|--table name = prural noun / snake_case
+|--column name = snake_case
+
+Ubuntu server
+|--file name = kebab-case.xxx

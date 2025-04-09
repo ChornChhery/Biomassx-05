@@ -1,0 +1,3 @@
+|endpoint|--|method|--|handlefunc|--|------------Action------------|htmx file| 
+/            GET       homeGet       display market data            index.html
+/about       GET       aboutGet      display about page             about.html

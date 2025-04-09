@@ -1,0 +1,54 @@
+erDiagram (bioenergy exchange platform)
+
+    USER ||--o{ LISTING : creates
+    USER ||--o{ TRANSACTION : participates
+    LISTING ||--o{ TRANSACTION : involves
+    BIOMASS_TYPE ||--o{ LISTING : categorizes
+    LOCATION ||--o{ USER : has
+    LOCATION ||--o{ LISTING : has
+
+    USER {
+        int user_id PK
+        string username
+        string email
+        string password_hash
+        date registration_date
+    }
+
+    LISTING {
+        int listing_id PK
+        int user_id FK
+        int biomass_type_id FK
+        int location_id FK
+        float quantity
+        string unit
+        float price_per_unit
+        date listing_date
+        string status
+    }
+
+    TRANSACTION {
+        int transaction_id PK
+        int listing_id FK
+        int buyer_id FK
+        int seller_id FK
+        float quantity
+        float total_price
+        date transaction_date
+        string status
+    }
+
+    BIOMASS_TYPE {
+        int biomass_type_id PK
+        string name
+        string description
+    }
+
+    LOCATION {
+        int location_id PK
+        string city
+        string state
+        string country
+        float latitude
+        float longitude
+    }

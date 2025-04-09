@@ -1,0 +1,21 @@
+For representing price across HTMX, Go, and PostgreSQL, here are appropriate data types to consider:
+
+1. PostgreSQL:
+   - NUMERIC or DECIMAL: These are exact, fixed-point types ideal for monetary values. They allow you to specify precision and scale.
+   Example: NUMERIC(10,2) can store a total of 10 digits with 2 decimal places.
+
+2. Go:
+   - decimal.Decimal: From the "github.com/shopspring/decimal" package. This type provides arbitrary-precision decimal arithmetic.
+   - float64: Built-in type, but be cautious about potential precision issues with floating-point arithmetic.
+
+3. HTMX (HTML/JavaScript):
+   - In HTML forms: Use <input type="number" step="0.01"> for user input.
+   - In JavaScript: Store as a string to preserve precision, or use a library like decimal.js for calculations.
+
+When passing data between these systems:
+
+1. Store and retrieve from PostgreSQL using NUMERIC.
+2. In Go, use decimal.Decimal for calculations and database operations.
+3. For HTMX, send the value as a string to preserve precision, parse it on the client-side if needed for display or calculation.
+
+This approach ensures consistent and precise handling of monetary values across your stack. Would you like me to elaborate on any part of this explanation?

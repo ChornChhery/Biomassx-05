@@ -1,0 +1,1 @@
+SSR is great for web pages that need to show real-time information, updates, or content that frequently changes. In the same way, a restaurant can customize an order to your specific preference; that’s the same way a server-side rendered website prepares the page you want to visit as soon as you hit ‘Enter’.
